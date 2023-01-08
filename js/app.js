@@ -1,7 +1,7 @@
 const app = new Vue({
     el: '#app',
     data: {
-        lessons: lessons,
+        lessons: [],
         cart: [],
         sortBy: 'subject',  // default sorting value
         orderBy: 'ascending', // default order value
@@ -9,6 +9,19 @@ const app = new Vue({
         search: '',
         phoneNumber: '',
         onHomePage: true
+    },
+    //Fetching the json from the get path
+    created: function () {
+        fetch("http://localhost:3000/lessons").then(
+            function (response) {
+                response.json().then(
+                    function (json) {
+                        //Pushing lessons in json format into the lessons array
+                        app.lessons = json;
+                    }
+                )
+            }
+        );
     },
     methods: {
         // adds a lesson to cart
