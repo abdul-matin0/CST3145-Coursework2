@@ -191,6 +191,7 @@ const app = new Vue({
             let result = /^\d+$/.test(this.phoneNumber);
             return result;
         },
+        // dialog confirmation
         showConfirmationDialog() {
             alert('Order has been submitted successfully')
         }
