@@ -19,20 +19,15 @@ const app = new Vue({
     methods: {
         // returns a new promise that will be resolved or rejected based on the result of the fetch call.
         getLessons() {
-            return new Promise((resolve, reject) => {
-                fetch(`${this.baseURL}/lessons`)
-                    .then(response => response.json())
-                    .then(json => {
-                        app.lessons = json;
-                        // promise is resolved
-                        resolve();
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        // reject promise with error
-                        reject(error);
-                    });
-            });
+            fetch(`${this.baseURL}/lessons`).then(
+                function (response) {
+                    response.json().then(
+                        function (json) {
+                            //Pushing lessons in json format into the lessons array
+                            app.lessons = json;
+                        }
+                    )
+                });
         },
         // adds a lesson to cart
         addToCart(lessonId) {
