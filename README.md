@@ -11,8 +11,14 @@
       - Abdul-Matin Adebayo - M00869707 - AA5328@LIVE.MDX.AC.UK
       - Jan Ciepiela - M00779169 - JC1663@LIVE.MDX.AC.UK
 
+- Backend Server
+  - Node JS
+  - Express
+  - baseURL: http://localhost:3000
+  - port: 3000
+      
  ----- <b>External libraries Used</b> -----    
-  
+    
     - Bootstrap
       - https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css
     
