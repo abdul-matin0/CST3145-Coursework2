@@ -1,7 +1,8 @@
 ---- <b>CST3145 Group Coursework-2</b> ----
     <br> <br>
-    - <b>Github URL:</b> https://github.com/abdul-matin0/CST3145-Coursework2 <br>
-  <!--  - <b>Github page URL:</b> https://abdul-matin0.github.io/web-based-mobile/ -->
+    - <b>Github Client URL:</b> https://github.com/abdul-matin0/CST3145-Client <br>
+    - <b>Github Server URL:</b> https://github.com/abdul-matin0/CST3145-Server <br>
+    - <b>Github page URL:</b> https://abdul-matin0.github.io/CST3145-Client 
 
      - Group members:
       - Wiktor Klusek - M00780216 - WK186@LIVE.MDX.AC.UK
