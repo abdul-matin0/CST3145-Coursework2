@@ -8,11 +8,12 @@ const app = new Vue({
         name: '',
         search: '',
         phoneNumber: '',
-        onHomePage: true
+        onHomePage: true,
+        baseURL: 'http://localhost:3000'
     },
     //Fetching the json from the get path
     created: function () {
-        fetch("http://localhost:3000/lessons").then(
+        fetch(`${this.baseURL}/lessons`).then(
             function (response) {
                 response.json().then(
                     function (json) {
