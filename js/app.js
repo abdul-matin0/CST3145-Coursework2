@@ -11,12 +11,13 @@ const app = new Vue({
         onHomePage: true,
         baseURL: 'http://localhost:3000'
     },
-    //Fetching the json from the get path
+    // fetching the lessons in json from the get path
     created: function () {
+        // using promise and fetch to get a list of lessons
         this.getLessons();
     },
     methods: {
-        // using promise and fetch to get a list of lessons
+        // returns a new promise that will be resolved or rejected based on the result of the fetch call.
         getLessons() {
             return new Promise((resolve, reject) => {
                 fetch(`${this.baseURL}/lessons`)
