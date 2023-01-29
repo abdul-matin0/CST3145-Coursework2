@@ -18,12 +18,12 @@ const app = new Vue({
     },
     methods: {
         // returns a new promise that will be resolved or rejected based on the result of the fetch call.
-        getLessons() {
+        async getLessons() {
             fetch(`${this.baseURL}/lessons`).then(
                 function (response) {
                     response.json().then(
                         function (json) {
-                            //Pushing lessons in json format into the lessons array
+                            // pushing lessons in json format into the lessons array
                             app.lessons = json;
                         }
                     )
@@ -44,10 +44,46 @@ const app = new Vue({
                     ++itemInCart.spaces;
                 } else {
                     // adding new item to cart
-                    itemInCart = { lessonId: lessonId, spaces: 1, lesson: lesson };
+                    itemInCart = { lessonId: lessonId, spaces: 1, lesson: lesson, name: 'Ayo', phoneNumber: '099497329987' };
+                    this.postOrderCollection(itemInCart);
+
+                    // update lesson space with put
                     this.cart.push(itemInCart);
                 }
             }
+        },
+        /// A fetch that saves a new order with POST
+        postOrderCollection(jsonData) {
+            fetch(`${this.baseURL}/orders`, {
+                method: "POST",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        /// A fetch that updates the available lesson space with PUT after an order
+        /// is submitted
+        updateLessonSpace(jsonData){
+            fetch(`${this.baseURL}/lessons`, {
+                method: "PUT",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         // removes a lesson from cart
         removeFromCart(lessonId) {
@@ -194,13 +230,15 @@ const app = new Vue({
     computed: {
         // filter lesson list based on search
         filteredLessonList: function () {
+            console.log(this.lessons)
+
             const lessons = this.lessons.filter(
                 (lesson) =>
-                    lesson.subject.toLowerCase().includes(this.search.toLowerCase()) ||
+                    lesson.topic.toLowerCase().includes(this.search.toLowerCase()) ||
                     lesson.location.toLowerCase().includes(this.search.toLowerCase())
             );
 
-            return lessons
+            return this.lessons
         },
         // disable cart button if no item is existing in the cart
         disableCartButton: function () {
