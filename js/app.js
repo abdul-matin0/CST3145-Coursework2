@@ -15,10 +15,11 @@ const app = new Vue({
     created: function () {
         // using promise and fetch to get a list of lessons
         this.getLessons();
+        this.getOrders();
     },
     methods: {
         // returns a new promise that will be resolved or rejected based on the result of the fetch call.
-        async getLessons() {
+        getLessons() {
             fetch(`${this.baseURL}/lessons`).then(
                 function (response) {
                     response.json().then(
@@ -29,27 +30,46 @@ const app = new Vue({
                     )
                 });
         },
+        // returns a new promise that will be resolved or rejected based on the result of the fetch call.
+        getOrders() {
+            fetch(`${this.baseURL}/orders`).then(
+                function (response) {
+                    response.json().then(
+                        function (json) {
+                            // pushing lessons in json format into the lessons array
+                            app.cart = json;
+                        }
+                    )
+                });
+        },
         // adds a lesson to cart
-        addToCart(lessonId) {
+        addToCart(_id) {
             // find selected lesson id
-            var lesson = this.getLessonById(lessonId);
+            var lesson = this.getLessonById(_id);
             if (lesson.spaces > 0) {
                 // decrease lesson space
                 --lesson.spaces;
 
                 // get existing item from cart
-                var itemInCart = this.getCartItemFromCartByLessonId(lessonId);
+                var itemInCart = this.getCartItemFromCartByLessonId(_id);
+
                 if (itemInCart != null) {
-                    // update existing item in cart
+                    // update existing item in cart with put
                     ++itemInCart.spaces;
+                    var formattedOrder = { spaces: itemInCart.spaces }
+                    this.updateCollectionSpace('orders', formattedOrder, itemInCart._id)
                 } else {
                     // adding new item to cart
-                    itemInCart = { lessonId: lessonId, spaces: 1, lesson: lesson, name: 'Ayo', phoneNumber: '099497329987' };
+                    itemInCart = { lessonId: _id, spaces: 1, lesson: lesson, name: 'Ayo', phoneNumber: '099497329987' };
                     this.postOrderCollection(itemInCart);
 
-                    // update lesson space with put
-                    this.cart.push(itemInCart);
+                    // get _id of item added to cart for the first time
+                    this.getOrders();
                 }
+
+                // update lesson space with put
+                var formattedLesson = { spaces: lesson.spaces }
+                this.updateCollectionSpace('lessons', formattedLesson, _id);
             }
         },
         /// A fetch that saves a new order with POST
@@ -68,10 +88,14 @@ const app = new Vue({
                     console.log(error);
                 });
         },
-        /// A fetch that updates the available lesson space with PUT after an order
-        /// is submitted
-        updateLessonSpace(jsonData){
-            fetch(`${this.baseURL}/lessons`, {
+        /// A fetch that:
+        /// updates the available lesson space with PUT after an order
+        /// updates the available space of order
+        updateCollectionSpace(collectionName, jsonData, _id) {
+            console.log(jsonData);
+            console.log(`${this.baseURL}/${collectionName}/${_id}`);
+
+            fetch(`${this.baseURL}/${collectionName}/${_id}`, {
                 method: "PUT",
                 body: JSON.stringify(jsonData),
                 headers: {
@@ -102,20 +126,29 @@ const app = new Vue({
             } else {
                 // reduce number of spaces of item in cart
                 --itemInCart.spaces;
+
+                // update order collection space with put
+                var formattedOrder = { spaces: itemInCart.spaces }
+                this.updateCollectionSpace('orders', formattedOrder, itemInCart._id)
             }
 
             // increase lesson space 
             var lesson = this.getLessonById(lessonId);
             ++lesson.spaces;
+
+            // update lesson collection space with put
+            var formattedLesson = { spaces: lesson.spaces }
+            this.updateCollectionSpace('lessons', formattedLesson, lessonId);
         },
         // get lesson by id
-        getLessonById(lessonId) {
-            var lesson = this.lessons.find(u => u.id == lessonId);
+        getLessonById(_id) {
+            var lesson = this.lessons.find(u => u._id == _id);
             return lesson;
         },
         // get item in cart by id
         getCartItemFromCartByLessonId(lessonId) {
             var item = this.cart.find(u => u.lessonId == lessonId);
+
             return item;
         },
         // toggle page -> index -> cart

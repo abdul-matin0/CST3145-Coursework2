@@ -95,7 +95,7 @@
                                         <span class="card-text fs-18"><i v-bind:class="lesson.icon"></i></span><br>
 
                                         <button v-bind:class="{disabled: lesson.spaces <= 0}"
-                                            @click="addToCart(lesson.id)"
+                                            @click="addToCart(lesson._id)"
                                             class="card-link btn btn-dark btn-sm mt-md-5 px-lg-2"> <i
                                                 class="fas fa-plus mx-1"></i> <span class="d-xl-none">Add</span>
                                             <span class="d-none d-xl-inline">Add to cart</span> </button>
