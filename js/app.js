@@ -42,6 +42,58 @@ const app = new Vue({
                     )
                 });
         },
+        /// A fetch that saves a new order with POST
+        postOrderCollection(jsonData) {
+            fetch(`${this.baseURL}/orders`, {
+                method: "POST",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        /// A fetch that:
+        /// updates the available lesson space with PUT after an order
+        /// updates the available space of order
+        updateCollectionSpace(collectionName, jsonData, _id) {
+
+            fetch(`${this.baseURL}/${collectionName}/${_id}`, {
+                method: "PUT",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+        /// Delete item from collection
+        deleteItemFromCollection(collectionName, jsonData, _id) {
+
+            fetch(`${this.baseURL}/${collectionName}/${_id}`, {
+                method: "DELETE",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => response.json())
+                .then(responseData => {
+                    console.log(responseData);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
         // adds a lesson to cart
         addToCart(_id) {
             // find selected lesson id
@@ -72,43 +124,6 @@ const app = new Vue({
                 this.updateCollectionSpace('lessons', formattedLesson, _id);
             }
         },
-        /// A fetch that saves a new order with POST
-        postOrderCollection(jsonData) {
-            fetch(`${this.baseURL}/orders`, {
-                method: "POST",
-                body: JSON.stringify(jsonData),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(response => response.json())
-                .then(responseData => {
-                    console.log(responseData);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
-        /// A fetch that:
-        /// updates the available lesson space with PUT after an order
-        /// updates the available space of order
-        updateCollectionSpace(collectionName, jsonData, _id) {
-            console.log(jsonData);
-            console.log(`${this.baseURL}/${collectionName}/${_id}`);
-
-            fetch(`${this.baseURL}/${collectionName}/${_id}`, {
-                method: "PUT",
-                body: JSON.stringify(jsonData),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(response => response.json())
-                .then(responseData => {
-                    console.log(responseData);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         // removes a lesson from cart
         removeFromCart(lessonId) {
             // find selected lesson in cart
@@ -118,6 +133,8 @@ const app = new Vue({
                 // if just one item space is left, remove item completely from cart
                 var index = this.cart.map(x => x.lessonId).indexOf(lessonId);
                 this.cart.splice(index, 1);
+
+                this.deleteItemFromCollection('orders', formattedOrder, itemInCart._id)
 
                 // redirect user back to home if cart is empty
                 if (this.cart.length <= 0) {
