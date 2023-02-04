@@ -266,16 +266,7 @@ const app = new Vue({
         }
     },
     computed: {
-        // filter lesson list based on search
-        filteredLessonList: function () {
-            const lessons = this.lessons.filter(
-                (lesson) =>
-                    lesson.topic.toLowerCase().includes(this.search.toLowerCase()) ||
-                    lesson.location.toLowerCase().includes(this.search.toLowerCase())
-            );
-
-            return this.lessons
-        },
+        
         // disable cart button if no item is existing in the cart
         disableCartButton: function () {
             return this.cart.length <= 0 ? true : false;
