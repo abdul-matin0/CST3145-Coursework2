@@ -17,9 +17,21 @@ const app = new Vue({
         this.getLessons();
     },
     methods: {
-        // returns a new promise that will be resolved or rejected based on the result of the fetch call.
+        /// returns a new promise that will be resolved or rejected based on the result of the fetch call.
         getLessons() {
             fetch(`${this.baseURL}/lessons`).then(
+                function (response) {
+                    response.json().then(
+                        function (json) {
+                            // pushing lessons in json format into the lessons array
+                            app.lessons = json;
+                        }
+                    )
+                });
+        },
+        /// search lesson
+        async searchLessons(search) {
+            fetch(`${this.baseURL}/lessons/search/${search}`).then(
                 function (response) {
                     response.json().then(
                         function (json) {
@@ -285,6 +297,16 @@ const app = new Vue({
         },
         orderBy: function () {
             this.sortLesson()
+        },
+        search: {
+            handler(val) {
+                console.log(val)
+                if (val.trim() != '') {
+                    this.searchLessons(val);
+                } else {
+                    this.getLessons();
+                }
+            },
         }
     }
 });
