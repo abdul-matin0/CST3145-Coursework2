@@ -15,7 +15,6 @@ const app = new Vue({
     created: function () {
         // using promise and fetch to get a list of lessons
         this.getLessons();
-        this.getOrders();
     },
     methods: {
         // returns a new promise that will be resolved or rejected based on the result of the fetch call.
@@ -30,18 +29,7 @@ const app = new Vue({
                     )
                 });
         },
-        // returns a new promise that will be resolved or rejected based on the result of the fetch call.
-        getOrders() {
-            fetch(`${this.baseURL}/orders`).then(
-                function (response) {
-                    response.json().then(
-                        function (json) {
-                            // pushing lessons in json format into the lessons array
-                            app.cart = json;
-                        }
-                    )
-                });
-        },
+
         /// A fetch that saves a new order with POST
         postOrderCollection(jsonData) {
             fetch(`${this.baseURL}/orders`, {
@@ -77,23 +65,7 @@ const app = new Vue({
                     console.log(error);
                 });
         },
-        /// Delete item from collection
-        deleteItemFromCollection(collectionName, jsonData, _id) {
 
-            fetch(`${this.baseURL}/${collectionName}/${_id}`, {
-                method: "DELETE",
-                body: JSON.stringify(jsonData),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).then(response => response.json())
-                .then(responseData => {
-                    console.log(responseData);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         // adds a lesson to cart
         addToCart(_id) {
             // find selected lesson id
@@ -108,20 +80,12 @@ const app = new Vue({
                 if (itemInCart != null) {
                     // update existing item in cart with put
                     ++itemInCart.spaces;
-                    var formattedOrder = { spaces: itemInCart.spaces }
-                    this.updateCollectionSpace('orders', formattedOrder, itemInCart._id)
+
                 } else {
                     // adding new item to cart
-                    itemInCart = { lessonId: _id, spaces: 1, lesson: lesson, name: 'Ayo', phoneNumber: '099497329987' };
-                    this.postOrderCollection(itemInCart);
-
-                    // get _id of item added to cart for the first time
-                    this.getOrders();
+                    itemInCart = { lessonId: _id, spaces: 1, lesson: lesson };
+                    this.cart.push(itemInCart);
                 }
-
-                // update lesson space with put
-                var formattedLesson = { spaces: lesson.spaces }
-                this.updateCollectionSpace('lessons', formattedLesson, _id);
             }
         },
         // removes a lesson from cart
@@ -134,8 +98,6 @@ const app = new Vue({
                 var index = this.cart.map(x => x.lessonId).indexOf(lessonId);
                 this.cart.splice(index, 1);
 
-                this.deleteItemFromCollection('orders', formattedOrder, itemInCart._id)
-
                 // redirect user back to home if cart is empty
                 if (this.cart.length <= 0) {
                     this.togglePage();
@@ -143,19 +105,11 @@ const app = new Vue({
             } else {
                 // reduce number of spaces of item in cart
                 --itemInCart.spaces;
-
-                // update order collection space with put
-                var formattedOrder = { spaces: itemInCart.spaces }
-                this.updateCollectionSpace('orders', formattedOrder, itemInCart._id)
             }
 
             // increase lesson space 
             var lesson = this.getLessonById(lessonId);
             ++lesson.spaces;
-
-            // update lesson collection space with put
-            var formattedLesson = { spaces: lesson.spaces }
-            this.updateCollectionSpace('lessons', formattedLesson, lessonId);
         },
         // get lesson by id
         getLessonById(_id) {
@@ -165,7 +119,6 @@ const app = new Vue({
         // get item in cart by id
         getCartItemFromCartByLessonId(lessonId) {
             var item = this.cart.find(u => u.lessonId == lessonId);
-
             return item;
         },
         // toggle page -> index -> cart
@@ -272,6 +225,29 @@ const app = new Vue({
             let result = /^\d+$/.test(this.phoneNumber);
             return result;
         },
+        // submit order
+        submitOrder() {
+            // processing each item in cart
+            this.cart.forEach((itemInCart) => {
+                // insert and save new order
+                var orderItem = {
+                    lessonId: itemInCart.lesson._id,
+                    spaces: itemInCart.spaces,
+                    lesson: itemInCart.lesson,
+                    name: this.name,
+                    phoneNumber: this.phoneNumber
+                };
+                this.postOrderCollection(orderItem);
+
+                // update available lesson space with put
+                var formattedLesson = { spaces: itemInCart.lesson.spaces }
+                this.updateCollectionSpace('lessons', formattedLesson, itemInCart.lesson._id);
+            });
+
+            this.showConfirmationDialog();
+            this.cart = [];
+            this.togglePage();
+        },
         // dialog confirmation
         showConfirmationDialog() {
             alert('Order has been submitted successfully')
@@ -280,8 +256,6 @@ const app = new Vue({
     computed: {
         // filter lesson list based on search
         filteredLessonList: function () {
-            console.log(this.lessons)
-
             const lessons = this.lessons.filter(
                 (lesson) =>
                     lesson.topic.toLowerCase().includes(this.search.toLowerCase()) ||
