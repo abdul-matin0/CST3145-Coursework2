@@ -8,7 +8,8 @@
     - <b>Github page URL:</b> https://abdul-matin0.github.io/CST3145-Client
     - <b>AWS Server URL:</b> https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/
     
-    - <b>Lessons Route Server URL:</b> https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/lessons
+    - <b>Lessons Route Server URL:</b> 
+    https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/lessons
 
 
 - Backend Server
