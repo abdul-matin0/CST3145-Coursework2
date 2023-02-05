@@ -9,7 +9,7 @@ const app = new Vue({
         search: '',
         phoneNumber: '',
         onHomePage: true,
-        baseURL: 'http://localhost:3000'
+        baseURL: 'https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com'
     },
     // fetching the lessons in json from the get path
     created: function () {
