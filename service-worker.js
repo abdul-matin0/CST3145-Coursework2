@@ -15,7 +15,7 @@ var cacheFiles = [
 ];
 
 self.addEventListener("install", function (e) {
-    console.log("[Service Workder] Install");
+    console.log("[Service Worker] Install");
     e.waitUntil(
         caches.open(cacheName).then(function (cache) {
             console.log("[Service Worker] Caching all the files");
@@ -25,7 +25,7 @@ self.addEventListener("install", function (e) {
 });
 
 self.addEventListener("fetch", function (e) {
-    e.respondWith(
+    e.respondwith(
         caches.match(e.request).then(function (cachedFile) {
             //download the file if it is not in the cache 
             if (cachedFile) {
