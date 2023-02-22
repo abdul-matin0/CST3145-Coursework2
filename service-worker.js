@@ -1,6 +1,7 @@
 var cacheName = "afterschoolsclasses-v1";
 var cacheFiles = [
     "index.html",
+    "app.js",
     "style.css",
     "images/english.jpg",
     "images/biology.jpg",
