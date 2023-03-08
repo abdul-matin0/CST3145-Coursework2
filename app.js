@@ -15,10 +15,10 @@ const app = new Vue({
     created: function () {
         // using promise and fetch to get a list of lessons
         this.getLessons();
-        
+
         if ("serviceWorker" in navigator) {
-                    navigator.serviceWorker.register("service-worker.js");
-                }
+            navigator.serviceWorker.register("service-worker.js");
+        }
     },
     methods: {
         /// returns a new promise that will be resolved or rejected based on the result of the fetch call.
@@ -270,7 +270,7 @@ const app = new Vue({
         }
     },
     computed: {
-        
+
         // disable cart button if no item is existing in the cart
         disableCartButton: function () {
             return this.cart.length <= 0 ? true : false;
