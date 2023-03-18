@@ -13,7 +13,7 @@
 
     <!-- main -->
     <div class="row pt-2">
-      <main>
+      <main class="d-flex justify-content-center">
         <component :is="currentView" :lessonList="lessons" :baseURL="baseURL" @add-to-cart="addToCart"
           @remove-from-cart="removeFromCart" :cart="cart">
         </component>
