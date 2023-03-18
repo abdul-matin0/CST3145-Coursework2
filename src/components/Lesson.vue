@@ -1,6 +1,6 @@
 <template>
     <!-- lessons -->
-    <div class="col-md-9 col-lg-10">
+    <div class="col-md-10">
 
         <div class="row ">
             <div class="col-sm-6 col-md-6 col-lg-4 mt-2" v-for="lesson in lessonList">
