@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="row">
         <!-- lessons -->
         <div class="col-sm-6 col-md-6 col-lg-4 mt-2" v-for="item in cart">
             <div class="card card-width rounded-0 shadow-sm">
@@ -34,8 +34,8 @@ export default {
     props: ["cart", "baseURL"],
     methods: {
         removeFromCart: function (_id) {
-            // emits a custom event that triggers the parent component to add a lesson to cart
-            this.$emit("add-to-cart", _id);
+            // emits a custom event that triggers the parent component to remove a lesson from cart
+            this.$emit("remove-from-cart", _id);
         }
     }
 }

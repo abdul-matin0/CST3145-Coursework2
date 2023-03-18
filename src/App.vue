@@ -5,16 +5,17 @@
     <hr />
     <div class="row mb-3 text-center">
       <div class="col-12">
-        <button class="card-link btn btn-dark btn-sm px-3 text-center" @click="showCheckout"><i
+        <button v-bind:class="{disabled: this.cart.length <= 0}" class="card-link btn btn-dark btn-sm px-3 text-center" @click="showCheckout"><i
             class="fas fa-arrow-right mx-2"></i>Go
-          to cart {{ this.cart.length }}</button>
+          to {{ this.title }} {{ this.cart.length }}</button>
       </div>
     </div>
 
     <!-- main -->
     <div class="row pt-2">
       <main>
-        <component :is="currentView" :lessonList="lessons" :baseURL="baseURL" @add-to-cart="addToCart" :cart="cart">
+        <component :is="currentView" :lessonList="lessons" :baseURL="baseURL" @add-to-cart="addToCart"
+          @remove-from-cart="removeFromCart" :cart="cart">
         </component>
       </main>
     </div>
@@ -31,6 +32,7 @@ export default {
       currentView: LessonComponent,
       lessons: [],
       cart: [],
+      title: 'Cart',
       sortBy: 'subject',  // default sorting value
       orderBy: 'ascending', // default order value
       name: '',
@@ -115,9 +117,13 @@ export default {
       return item;
     },
     showCheckout() {
-      if (this.currentView === CheckoutComponent)
-        this.currentView = LessonComponent
-      else this.currentView = CheckoutComponent;
+      if (this.currentView === CheckoutComponent) { 
+        this.title = 'Cart';
+        this.currentView = LessonComponent }
+      else { 
+        this.title = 'Home';
+        this.currentView = CheckoutComponent };
+
     }
   }
 }
