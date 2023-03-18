@@ -1,35 +1,30 @@
-@import "./base.css";
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+* {
+  font-family: 'Inter', sans-serif;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
+.fs-14{
+  font-size: 14px;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.fs-18{
+  font-size: 18px;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.mt-70{
+  margin-top: 70px;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+.disabled{
+  background-color: #f8f8f8;
+}
+
+.card-width {
+  width: 18rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .card-width{
+      width: 15rem;
   }
 }

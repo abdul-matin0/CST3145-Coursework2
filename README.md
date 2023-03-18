@@ -1,29 +1,30 @@
-# CST3145-Client
+---- <b>CST3145 Individual Coursework-3</b> ----
+    <br> <br>
+    - <b>Github URL:</b> https://github.com/abdul-matin0/CST3145-Client/ <br>
+    - <b>Github page URL:</b> https://abdul-matin0.github.io/CST3145-Client/
 
-This template should help get you started developing with Vue 3 in Vite.
+    - Student Number:
+      - Abdul-Matin Adebayo - M00869707 - AA5328@LIVE.MDX.AC.UK
+	  
+	- Backend Server
+		- Node JS
+		- Express
+		- baseURL: https://cst3145-env.eba-9sjt9wkg.eu-west-2.elasticbeanstalk.com/
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+ ----- <b>External libraries Used</b> -----    
+  
+    - Bootstrap
+      - https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css
+    
+    - Vue
+      - https://unpkg.com/vue@2.7.8/dist/vue.js
+      
+   - Font awesome
+      - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css
+      
+      
+    - Google fonts
+      - https://fonts.googleapis.com
+      - https://fonts.gstatic.com
+      - https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600
+      
